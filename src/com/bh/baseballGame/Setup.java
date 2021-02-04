@@ -6,13 +6,13 @@ import java.util.Scanner;
 public class Setup {
 
     //random3 number
-    public void randomNumber() {
+    public int[] randomNumber() {
         int[] no = new int[3];
         Random r = new Random();
 
         for(int i=0; i<3; i++){
             while(true) {
-                int rand = r.nextInt(10) + 1;
+                int rand = r.nextInt(9) + 1;
 
                 //checking duplicate
                 boolean duplicated = false;
@@ -34,10 +34,11 @@ public class Setup {
             System.out.print(no[i] + " ");
         }
         System.out.println();
+        return no;
     }
 
     //input 3 number
-    public void inputNumber(){
+    public int[] inputNumber(){
         int[] no = new int[3];
         // user input 3 number
         Scanner sc = new Scanner(System.in);
@@ -76,7 +77,6 @@ public class Setup {
                     }
 
                     no[idx] = n;
-                    System.out.println("idx : " + idx);
                     idx++;
                 }
             }
@@ -84,6 +84,8 @@ public class Setup {
             break;
             }
         }
+            // no[0],no[2] = no[2], no[0];
+            // to print out in order of input
             int temp = no[0];
             no[0] = no[2];
             no[2] = temp;
@@ -91,21 +93,44 @@ public class Setup {
                 for (int k = 0; k < 3; k++) {
                     System.out.print(no[k] + " ");
             }
-            // no[0],no[3] = no[3], no[1];
+        System.out.println();
+                return no;
         }
 
     //compare random & input no
-    public void compareNumber(){
+    public Result compareNumber(int[] no, int[] inputNo){
+        Result result = new Result();
 
+        int strikes = 0;
+        int balls = 0;
+
+
+
+
+        for (int i =0; i < 3; i++){
+            for (int j=0; j<3; j++){
+                if (no[i] == inputNo[j]) {
+                    if (i == j) {
+                        strikes++;
+                        result.setStrikes(strikes);
+                    } else {
+                        balls++;
+                        result.setBalls(balls);
+                    }
+                    break;
+                }
+            }
+        }
+    return result;
     }
 
     //print result of the compare
-    public void printResult(){
-
+    public void printResult(Result result){
+        System.out.printf("%dS, %dB\n",result.getStrikes(),result.getBalls());
     }
 
     //show result of the game
-    public void endGame(){
-
+    public boolean endGame(Result result){
+        return result.getStrikes() == 3;
     }
 }
